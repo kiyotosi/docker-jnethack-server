@@ -1,11 +1,11 @@
 docker-jnethack-server
 ======================
 
-Dockerfile for Public JNetHack server
+Dockerfile for Public JNetHack server (Ver.3.6.6-0.1)
 
 ## Howto
 
-    docker run --detach --name=jnh --publish=23:23 matsuu/jnethack-server
+    docker run --detach --name=jnh --publish=23:23 kiyo2/jnethack-server
 
 ## Build
 
