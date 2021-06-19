@@ -1,11 +1,12 @@
 FROM ubuntu
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN \
   apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y autoconf bison \
+    apt-get install -y autoconf bison \
     bsdmainutils bzip2 gzip flex gcc git groff language-pack-ja libncursesw5-dev \
     libsqlite3-dev make ncurses-dev patch sqlite3 tar wget \
-    telnetd xinetd less nkf && \
+    telnetd xinetd less nkf golang && \
   apt-get clean
 
 RUN locale-gen ja_JP.UTF-8
@@ -105,19 +106,7 @@ RUN tar cf - \
   /usr/bin/less \
   | tar xf - -C /opt/nethack/nethack.alt.org/
 
-RUN ( \
-  echo "service telnet" && \
-  echo "{" && \
-  echo "  socket_type = stream" && \
-  echo "  protocol    = tcp" && \
-  echo "  user        = root" && \
-  echo "  wait        = no" && \
-  echo "  server      = /usr/sbin/in.telnetd" && \
-  echo "  server_args = -L /opt/nethack/nethack.alt.org/dgamelaunch-wrapper" && \
-  echo "  rlimit_cpu  = 120" && \
-  echo "}" \
-) > /etc/xinetd.d/dgl
-
+# Custom dgl menu
 RUN cd /opt/nethack/nethack.alt.org && \
   chown games:games -R nh366 && \
   echo "FAQ comming soon."  > /opt/nethack/nethack.alt.org/nh366/var/faq.utf8
@@ -134,9 +123,34 @@ RUN  ( \
   ) > /opt/nethack/nethack.alt.org/bin/mkrank && \
   chmod +x /opt/nethack/nethack.alt.org/bin/mkrank 
 
-VOLUME ["/opt/nethack/nethack.alt.org/nh366/var", "/opt/nethack/nethack.alt.org/dgldir"]
+# Set startup.sh
+ADD startup.sh /root/startup.sh
+RUN chown root:root /root/startup.sh && \
+ chmod 0500 /root/startup.sh
 
+# telnetd
+RUN ( \
+  echo "service telnet" && \
+  echo "{" && \
+  echo "  socket_type = stream" && \
+  echo "  protocol    = tcp" && \
+  echo "  user        = root" && \
+  echo "  wait        = no" && \
+  echo "  server      = /usr/sbin/in.telnetd" && \
+  echo "  server_args = -L /opt/nethack/nethack.alt.org/dgamelaunch-wrapper" && \
+  echo "  rlimit_cpu  = 120" && \
+  echo "}" \
+) > /etc/xinetd.d/dgl
 EXPOSE 23
 
-CMD ["xinetd", "-dontfork"]
+# Web CLI
+RUN mkdir /root/go
+ENV GOPATH /root/go
+RUN go get github.com/yudai/gotty; \
+    cp /root/go/bin/gotty /usr/local/bin/gotty; \
+    rm -rf /root/go
+EXPOSE 8080
 
+VOLUME ["/opt/nethack/nethack.alt.org/nh366/var", "/opt/nethack/nethack.alt.org/dgldir"]
+
+CMD ["/root/startup.sh"]
