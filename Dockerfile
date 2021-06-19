@@ -5,7 +5,7 @@ RUN \
   DEBIAN_FRONTEND=noninteractive apt-get install -y autoconf bison \
     bsdmainutils bzip2 gzip flex gcc git groff language-pack-ja libncursesw5-dev \
     libsqlite3-dev make ncurses-dev patch sqlite3 tar wget \
-    telnetd xinetd nkf && \
+    telnetd xinetd less nkf && \
   apt-get clean
 
 RUN locale-gen ja_JP.UTF-8
@@ -39,7 +39,7 @@ RUN git clone git://github.com/paxed/dgamelaunch.git && \
   sh -c 'echo "#!/bin/sh\nLANG=ja_JP.UTF-8 /opt/nethack/nethack.alt.org/dgamelaunch" > /opt/nethack/nethack.alt.org/dgamelaunch-wrapper' && \
   chmod +x /opt/nethack/nethack.alt.org/dgamelaunch-wrapper && \
   cd .. && \
-  rm -rf dgamelaunch
+  rm -rf dgamelaunch 
 
 RUN \
   wget \
@@ -101,10 +101,9 @@ RUN tar cf - \
   /usr/share/locale-langpack \
   /usr/lib/x86_64-linux-gnu/gconv \
   /usr/lib/locale \
+  /usr/bin/nkf \
+  /usr/bin/less \
   | tar xf - -C /opt/nethack/nethack.alt.org/
-
-RUN cd /opt/nethack/nethack.alt.org && \
-  chown games:games -R nh366
 
 RUN ( \
   echo "service telnet" && \
@@ -118,6 +117,22 @@ RUN ( \
   echo "  rlimit_cpu  = 120" && \
   echo "}" \
 ) > /etc/xinetd.d/dgl
+
+RUN cd /opt/nethack/nethack.alt.org && \
+  chown games:games -R nh366 && \
+  echo "FAQ comming soon."  > /opt/nethack/nethack.alt.org/nh366/var/faq.utf8
+
+RUN git clone https://github.com/kiyotosi/jnethack-server.conf && \
+  cd jnethack-server.conf/conf && \
+  tar cf - * | tar xf - -C /opt/nethack/nethack.alt.org/ && \
+  cd ../../ && \
+  rm -r jnethack-server.conf/conf 
+
+RUN  ( \
+  echo "#!/bin/sh" && \
+  echo "/usr/bin/nkf /nh366/var/record | /usr/bin/less" \
+  ) > /opt/nethack/nethack.alt.org/bin/mkrank && \
+  chmod +x /opt/nethack/nethack.alt.org/bin/mkrank 
 
 VOLUME ["/opt/nethack/nethack.alt.org/nh366/var", "/opt/nethack/nethack.alt.org/dgldir"]
 
