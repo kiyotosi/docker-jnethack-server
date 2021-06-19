@@ -15,6 +15,7 @@ Dockerfile for Public JNetHack server (Ver.3.6.6-0.1)
 
 - [Public JNetHack Server at nethack.matsuu.net](https://matsuu.net/nethack/)
 - [matsuu/docker-jnethack](https://github.com/matsuu/docker-jnethack)
+- [docker と gotty で cloud な nethack プレイ環境を構築](https://qiita.com/rerofumi/items/8bf1c4395eb1e9b07c3f)
 - [NetHack 3.4.3: Home Page](http://www.nethack.org/)
 - [JNetHack Home Page](http://www.jnethack.org/)
 - [JNetHack Project](http://jnethack.sourceforge.jp/)
