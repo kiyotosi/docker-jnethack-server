@@ -2,6 +2,7 @@ docker-jnethack-server
 ======================
 
 Dockerfile for Public JNetHack server (Ver.3.6.6-0.1)
+Public NetHack server at alt.org (NAO)のJNetHack版。
 - jnethack ServerをDockerで構築することができる。
 - telnet,HTTPSに対応
 
@@ -11,11 +12,11 @@ Dockerfile for Public JNetHack server (Ver.3.6.6-0.1)
 
 ## Howto
 
-    docker run --detach --name=jnh --publish=23:23 kiyo2/jnethack-server
-
-## Build
-
-    docker build -t jnethack-server .
+    git clone https://github.com/kiyotosi/docker-jnethack-server
+    cd docker-jnethack-server
+    sudo docker build -t jnh .
+    sudo docker container run --name jnh -p 23:23 jnh
+    
 
 ## References
 
