@@ -2,6 +2,8 @@ docker-jnethack-server
 ======================
 
 Dockerfile for Public JNetHack server (Ver.3.6.6-0.1)
+- jnethack ServerをDockerで構築することができる。
+- telnet,HTTPSに対応
 
 ## Screen Shot
 ![title](https://user-images.githubusercontent.com/19776716/122664420-3a890280-d1dc-11eb-887f-080e37a80d5e.png)
