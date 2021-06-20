@@ -7,6 +7,7 @@ Public NetHack server at alt.org (NAO)をJNetHackに変更してあります。
 ## やれること
 - JNetHack (Ver.3.6.6-0.1)をプレイすることができる。  
 - ほかの人のプレイを覗くことができる。(自分のプレイのみでではない)  
+- アクセス方法はtelnetとHTTP/HTTPSの２種類
 
 ## Screen Shot
 ![title](https://user-images.githubusercontent.com/19776716/122664420-3a890280-d1dc-11eb-887f-080e37a80d5e.png)
