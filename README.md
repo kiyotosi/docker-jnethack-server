@@ -15,27 +15,22 @@ Public NetHack server at alt.org (NAO)のJNetHack版。
     git clone https://github.com/kiyotosi/docker-jnethack-server
     cd docker-jnethack-server
     sudo docker build -t jnh .
-    sudo docker container run --name jnh -p 23:23 -d jnh
     
-    # telnetのみでアクセスする場合は、上記手順のみでOK。
-    # 以下の操作は、Web CLIを有効化する場合のみ実施すること。
-    sudo apt-get install golang
-    go get github.com/yudai/gotty
-    sudo cp -p ~/go/bin/gotty /usr/local/bin/gotty
-    sudo chown root:root /usr/local/bin/gotty
-    sudo chmod 544 /usr/local/bin/gotty
-    
-    # HTTPの場合
-    sudo /usr/local/bin/gotty -p 8080 \
-        --title-format "\"jnethack\"" \
-        -w docker run -it jnh /opt/nethack/nethack.alt.org/dgamelaunch-wrapper
+    # HTTP and telnetの場合
+    docker run -it --name jnhsrv \
+      -p 23:23 \
+      -p 8080:8080 \
+      jnh:latest
 
-    # HTTPSの場合(事前にSSLCertficateFile,SSLCertificateKeyFileの用意が必要)
-    sudo /usr/local/bin/gotty -p 8080 \
-        --title-format "\"jnethack\"" \
-        --tls --tls-crt /etc/letsencrypt/live/kiyo2.info/fullchain.pem \
-        --tls-key /etc/letsencrypt/live/kiyo2.info/privkey.pem \
-        -w docker run -it jnh /opt/nethack/nethack.alt.org/dgamelaunch-wrapper
+    # HTTPS and telnetの場合
+    # (事前にSSLCertficateFile,SSLCertificateKeyFileの用意が必要)
+    docker run -it --name jnhsrv \
+      -p 23:23 \
+      -p 8080:8080 \
+      -e GOTTY_TLS=true \
+      -v "/etc/letsencrypt/live/kiyo2.info/fullchain.pem:/root/.gotty.crt:ro" \
+      -v "/etc/letsencrypt/live/kiyo2.info/privkey.pem:/root/.gotty.key:ro" \
+      jnh:latest
 
 ## References
 以下のページを参考にさせていただきました。

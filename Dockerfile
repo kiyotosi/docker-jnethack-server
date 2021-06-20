@@ -123,11 +123,6 @@ RUN  ( \
   ) > /opt/nethack/nethack.alt.org/bin/mkrank && \
   chmod +x /opt/nethack/nethack.alt.org/bin/mkrank 
 
-# Set startup.sh
-ADD startup.sh /root/startup.sh
-RUN chown root:root /root/startup.sh && \
- chmod 0500 /root/startup.sh
-
 # telnetd
 RUN ( \
   echo "service telnet" && \
@@ -143,16 +138,24 @@ RUN ( \
 ) > /etc/xinetd.d/dgl
 EXPOSE 23
 
-VOLUME ["/opt/nethack/nethack.alt.org/nh366/var", "/opt/nethack/nethack.alt.org/dgldir"]
 
-CMD ["xinetd", "-dontfork"]
+# telnetd Only CMD (Comment Out)
+#CMD ["xinetd", "-dontfork"]
 
 # Web CLI
-#RUN mkdir /root/go
-#ENV GOPATH /root/go
-#RUN go get github.com/yudai/gotty; \
-#    cp /root/go/bin/gotty /usr/local/bin/gotty; \
-#    rm -rf /root/go
-#EXPOSE 8080
-#CMD ["/root/startup.sh"]
+ADD startup.sh /root/startup.sh
+RUN chown root:root /root/startup.sh && \
+ chmod 0500 /root/startup.sh
+RUN mkdir /root/go
+ENV GOPATH /root/go
+RUN go get github.com/yudai/gotty; \
+    cp /root/go/bin/gotty /usr/local/bin/gotty; \
+    rm -rf /root/go
+
+EXPOSE 8080
+
+VOLUME ["/opt/nethack/nethack.alt.org/nh366/var", "/opt/nethack/nethack.alt.org/dgldir"]
+
+# telnetd and Web CLI
+CMD ["/root/startup.sh"]
 
