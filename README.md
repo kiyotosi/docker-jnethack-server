@@ -38,7 +38,7 @@ Public NetHack server at alt.org (NAO)のJNetHack版。
         -w docker run -it jnh /opt/nethack/nethack.alt.org/dgamelaunch-wrapper
 
 ## References
-
+以下のページを参考にさせていただきました。
 - [Public JNetHack Server at nethack.matsuu.net](https://matsuu.net/nethack/)
 - [matsuu/docker-jnethack](https://github.com/matsuu/docker-jnethack)
 - [docker と gotty で cloud な nethack プレイ環境を構築](https://qiita.com/rerofumi/items/8bf1c4395eb1e9b07c3f)
