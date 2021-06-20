@@ -143,14 +143,16 @@ RUN ( \
 ) > /etc/xinetd.d/dgl
 EXPOSE 23
 
-# Web CLI
-RUN mkdir /root/go
-ENV GOPATH /root/go
-RUN go get github.com/yudai/gotty; \
-    cp /root/go/bin/gotty /usr/local/bin/gotty; \
-    rm -rf /root/go
-EXPOSE 8080
-
 VOLUME ["/opt/nethack/nethack.alt.org/nh366/var", "/opt/nethack/nethack.alt.org/dgldir"]
 
-CMD ["/root/startup.sh"]
+CMD ["xinetd", "-dontfork"]
+
+# Web CLI
+#RUN mkdir /root/go
+#ENV GOPATH /root/go
+#RUN go get github.com/yudai/gotty; \
+#    cp /root/go/bin/gotty /usr/local/bin/gotty; \
+#    rm -rf /root/go
+#EXPOSE 8080
+#CMD ["/root/startup.sh"]
+
