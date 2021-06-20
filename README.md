@@ -5,6 +5,7 @@ Dockerfile for Public JNetHack server (Ver.3.6.6-0.1)
 
 ## DEMO
 ![play](https://user-images.githubusercontent.com/19776716/122664324-b33b8f00-d1db-11eb-8a97-6eba374a5bd1.png)
+![title](https://user-images.githubusercontent.com/19776716/122664355-d8c89880-d1db-11eb-8d67-53b0467b9221.png)
 
 ## Howto
 
