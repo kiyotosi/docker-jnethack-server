@@ -3,6 +3,9 @@ docker-jnethack-server
 
 Dockerfile for Public JNetHack server (Ver.3.6.6-0.1)
 
+## DEMO
+![play](https://user-images.githubusercontent.com/19776716/122664324-b33b8f00-d1db-11eb-8a97-6eba374a5bd1.png)
+
 ## Howto
 
     docker run --detach --name=jnh --publish=23:23 kiyo2/jnethack-server
